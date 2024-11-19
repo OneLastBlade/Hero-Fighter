@@ -1,13 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package user;
 
-/**
- *
- * @author yessine
- */
+import java.util.ArrayList;
+import equipement.Equipement;
+
 public class Loot {
-    
+	ArrayList<Equipement>  Equip_list ;
+
+	public Loot() {
+		super();
+	}
+	
+	public Boolean is_in_loot(Equipement e) {
+		
+	  return  Equip_list.contains(e) ;
+		
+	}
+	
+	public void show_loot(javafx.scene.control.Label label) {
+		
+		// A definir ulterieurment ...
+	}
+	
+	
 }
