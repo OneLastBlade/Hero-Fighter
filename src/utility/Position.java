@@ -11,23 +11,27 @@ package utility;
 public class Position {
     private double axeX;
     private double axeY;
-
-    public double getAxeX() {
-        return axeX;
-    }
-
-    public void setAxeX(double axeX) {
-        this.axeX = axeX;
-    }
-
-    public double getAxeY() {
-        return axeY;
-    }
-
-    public void setAxeY(double axeY) {
-        this.axeY = axeY;
-    }
     
-    
+	public Position(double axeX, double axeY) {
+		super();
+		this.axeX = axeX;
+		this.axeY = axeY;
+	}
+
+	public double getAxeX() {
+		return axeX;
+	}
+
+	public void setAxeX(double axeX) {
+		this.axeX = axeX;
+	}
+
+	public double getAxeY() {
+		return axeY;
+	}
+
+	public void setAxeY(double axeY) {
+		this.axeY = axeY;
+	}
     
 }
