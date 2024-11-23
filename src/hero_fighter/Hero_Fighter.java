@@ -23,37 +23,39 @@ import javafx.stage.Stage;
  */
 public class Hero_Fighter extends Application {
     
-    private double playerX = 200;
-    private double playerY = 200;
-    private boolean up, down, left, right;
+    private Hero hero;
+    private InputHandler inputHandler;
+    private BackgroundManager backgroundManager;
 
     @Override
     public void start(Stage stage) {
-        Canvas canvas = new Canvas(800, 600);
+        Canvas canvas = new Canvas(1200, 800);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        Scene scene = new Scene(new Pane(canvas), 800, 600);
+        stage.setResizable(false);
+        Scene scene = new Scene(new Pane(canvas), 1200, 800);
         stage.setScene(scene);
-        stage.setTitle("Simple 2D Game");
+         backgroundManager = new BackgroundManager("/hero_fighter/ressources/map/background1yellow.jpg", 1200, 800);
+         inputHandler = new InputHandler();
+
+scene.setOnKeyPressed(e -> {
+    inputHandler.handleKeyPress(e.getCode());
+});
+
+scene.setOnKeyReleased(e -> {
+    inputHandler.handleKeyRelease(e.getCode());
+});
+
+ hero = new Hero(200, 500, 100, 100,"/hero_fighter/ressources/heros/adventurer/");
+        
+
+        stage.setTitle("Hero Fighter");
         stage.show();
-
-        scene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.Z) up = true;
-            if (e.getCode() == KeyCode.S) down = true;
-            if (e.getCode() == KeyCode.Q) left = true;
-            if (e.getCode() == KeyCode.D) right = true;
-        });
-
-        scene.setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.Z) up = false;
-            if (e.getCode() == KeyCode.S) down = false;
-            if (e.getCode() == KeyCode.Q) left = false;
-            if (e.getCode() == KeyCode.D) right = false;
-        });
 
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                hero.update(inputHandler);  // Update hero based on input
+                hero.render(gc);
                 update();
                 render(gc);
             }
@@ -62,15 +64,13 @@ public class Hero_Fighter extends Application {
     }
 
     private void update() {
-        if (up) playerY -= 2;
-        if (down) playerY += 2;
-        if (left) playerX -= 2;
-        if (right) playerX += 2;
+       hero.update(inputHandler);
     }
 
     private void render(GraphicsContext gc) {
-        gc.clearRect(0, 0, 800, 600);
-        gc.fillRect(playerX, playerY, 50, 50);
+       gc.clearRect(0, 0, 1200, 800);
+        backgroundManager.render(gc);
+        hero.render(gc);
     }
 
     public static void main(String[] args) {
