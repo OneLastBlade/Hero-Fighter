@@ -9,29 +9,29 @@ package utility;
  * @author yessine
  */
 public class Position {
-    private double axeX;
-    private double axeY;
+    private double x;
+    private double y;
     
-	public Position(double axeX, double axeY) {
-		super();
-		this.axeX = axeX;
-		this.axeY = axeY;
-	}
+	    public Position(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 
-	public double getAxeX() {
-		return axeX;
-	}
+    // Getters and setters
+    public double getX() {
+        return x;
+    }
 
-	public void setAxeX(double axeX) {
-		this.axeX = axeX;
-	}
+    public void setX(double x) {
+        this.x = x;
+    }
 
-	public double getAxeY() {
-		return axeY;
-	}
+    public double getY() {
+        return y;
+    }
 
-	public void setAxeY(double axeY) {
-		this.axeY = axeY;
-	}
-    
+    public void setY(double y) {
+        this.y = y;
+    }
 }
+    

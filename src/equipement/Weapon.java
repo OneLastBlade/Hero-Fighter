@@ -6,6 +6,7 @@ package equipement;
 
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import utility.Position;
 
 /**
  *
@@ -54,5 +55,9 @@ public class Weapon extends Equipement {
 		label.setText(String.format("Attack dammage : %d \nRage of dammage : %d",this.getAttack_dammage() ,this.getRage_to_dammage()));
 				
 	}
+
+    public void setPosition(Position position) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }
