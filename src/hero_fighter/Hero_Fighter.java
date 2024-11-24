@@ -26,13 +26,17 @@ public class Hero_Fighter extends Application {
     private Hero hero;
     private InputHandler inputHandler;
     private BackgroundManager backgroundManager;
-
+    private GameTimer gametimer;
+    private HealthBar healthbar;
+    
     @Override
     public void start(Stage stage) {
-        Canvas canvas = new Canvas(1200, 800);
+        healthbar=new HealthBar();
+        gametimer=new GameTimer();
+        Canvas canvas = new Canvas(1200, 600);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         stage.setResizable(false);
-        Scene scene = new Scene(new Pane(canvas), 1200, 800);
+        Scene scene = new Scene(new Pane(canvas), 1200, 600);
         stage.setScene(scene);
          backgroundManager = new BackgroundManager("/hero_fighter/ressources/map/background1yellow.jpg", 1200, 800);
          inputHandler = new InputHandler();
@@ -62,20 +66,22 @@ scene.setOnKeyReleased(e -> {
         };
         gameLoop.start();
     }
-
     private void update() {
        hero.update(inputHandler);
     }
-
     private void render(GraphicsContext gc) {
        gc.clearRect(0, 0, 1200, 800);
         backgroundManager.render(gc);
         hero.render(gc);
+        gametimer.renderTimer(gc,1200);
+        healthbar.renderHealthBar(gc);
+        
     }
 
     public static void main(String[] args) {
     	
         launch(args);
     }
+
 }
     
