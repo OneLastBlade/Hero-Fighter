@@ -25,7 +25,7 @@ public class Loot<T extends Equipement> {
 		int equip_size= Equip_list.size();
 	  
 		for(int i=0 ; i< findMinimum(label_size,image_size, equip_size);i++) {
-			Equip_list.get(i).Show_caract(label_list.get(i),image_list.get(i) );
+			//Equip_list.get(i).Show_caract(label_list.get(i),image_list.get(i) );
 		}
 		
 	}

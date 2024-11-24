@@ -16,13 +16,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import utility.Position;
 
 /**
  *
  * @author yessine
  */
 public class Hero_Fighter extends Application {
-    
+
     private Hero hero;
     private InputHandler inputHandler;
     private BackgroundManager backgroundManager;
@@ -38,19 +39,20 @@ public class Hero_Fighter extends Application {
         stage.setResizable(false);
         Scene scene = new Scene(new Pane(canvas), 1200, 600);
         stage.setScene(scene);
-         backgroundManager = new BackgroundManager("/hero_fighter/ressources/map/background1yellow.jpg", 1200, 800);
-         inputHandler = new InputHandler();
+        backgroundManager = new BackgroundManager("/hero_fighter/ressources/map/background1yellow.jpg", 1200, 800);
+        inputHandler = new InputHandler();
 
-scene.setOnKeyPressed(e -> {
-    inputHandler.handleKeyPress(e.getCode());
-});
+        scene.setOnKeyPressed(e -> {
+            inputHandler.handleKeyPress(e.getCode());
+        });
 
-scene.setOnKeyReleased(e -> {
-    inputHandler.handleKeyRelease(e.getCode());
-});
+        scene.setOnKeyReleased(e -> {
+            inputHandler.handleKeyRelease(e.getCode());
+        });
 
- hero = new Hero(200, 500, 100, 100,"/hero_fighter/ressources/heros/adventurer/");
-        
+        hero = new Hero(200, 500, 100, 100, "/hero_fighter/ressources/heros/adventurer/");
+        //Weapon sword = new Weapon("sword");
+        //hero.equipWeapon(sword);
 
         stage.setTitle("Hero Fighter");
         stage.show();
@@ -58,7 +60,7 @@ scene.setOnKeyReleased(e -> {
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                hero.update(inputHandler);  // Update hero based on input
+                hero.update(inputHandler);
                 hero.render(gc);
                 update();
                 render(gc);
@@ -67,10 +69,10 @@ scene.setOnKeyReleased(e -> {
         gameLoop.start();
     }
     private void update() {
-       hero.update(inputHandler);
+        hero.update(inputHandler);
     }
     private void render(GraphicsContext gc) {
-       gc.clearRect(0, 0, 1200, 800);
+        gc.clearRect(0, 0, 1200, 800);
         backgroundManager.render(gc);
         hero.render(gc);
         gametimer.renderTimer(gc,1200);
@@ -79,9 +81,8 @@ scene.setOnKeyReleased(e -> {
     }
 
     public static void main(String[] args) {
-    	
         launch(args);
     }
 
 }
-    
+

@@ -13,12 +13,14 @@ import javafx.scene.input.KeyCode;
 
 public class InputHandler {
     private boolean up, down, left, right;
+    private boolean space;
 
     public void handleKeyPress(KeyCode key) {
         if (key == KeyCode.Z) up = true;   // 'Z' key for jumping
         if (key == KeyCode.S) down = true;
         if (key == KeyCode.Q) left = true;
         if (key == KeyCode.D) right = true;
+        if (key == KeyCode.SPACE) space = true;
     }
 
     public void handleKeyRelease(KeyCode key) {
@@ -26,6 +28,7 @@ public class InputHandler {
         if (key == KeyCode.S) down = false;
         if (key == KeyCode.Q) left = false;
         if (key == KeyCode.D) right = false;
+        if (key == KeyCode.SPACE) space = false;
     }
 
     public boolean isUp() {
@@ -42,6 +45,9 @@ public class InputHandler {
 
     public boolean isRight() {
         return right;
+    }
+     public boolean isSpace() {
+        return space; // Return true if space is pressed
     }
 }
 
