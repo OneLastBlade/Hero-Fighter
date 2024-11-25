@@ -14,16 +14,18 @@ import javafx.scene.image.Image;
 public class Bullet {
 
     private double x, y; // Position of the bullet
-    private double velocityX; // Bullet's horizontal speed
-    private double width = 10; // Width of the bullet (adjust as needed)
-    private double height = 5; // Height of the bullet (adjust as needed)
-    private Image image; // Bullet image
+    private final double velocityX; // Bullet's horizontal speed (final to prevent accidental changes)
+    private final double width = 10; // Width of the bullet (adjust as needed)
+    private final double height = 5; // Height of the bullet (adjust as needed)
+    private final Image image; // Bullet image
 
     public Bullet(double x, double y, boolean facingRight) {
         this.x = x;
         this.y = y;
-        this.velocityX = facingRight ? 5 : -5; // Bullet speed depends on the hero's facing direction
-        this.image = new Image(getClass().getResource("/hero_fighter/ressources/weapons/bullet.png").toExternalForm()); // Load the bullet image
+
+        // Set velocity based on initial facing direction
+        this.velocityX = facingRight ? 5 : -5; // Bullet speed is fixed and independent
+        this.image = new Image(getClass().getResource("/hero_fighter/ressources/weapons/bullet.png").toExternalForm());
     }
 
     public void update() {
@@ -31,10 +33,10 @@ public class Bullet {
     }
 
     public void render(GraphicsContext gc) {
-        gc.drawImage(image, x, y, width, height); // Draw the bullet
+        gc.drawImage(image, x, y, width, height); // Draw the bullet at its current position
     }
 
-    // Getters and setters
+    // Getters for position (optional, if needed for collision or other logic)
     public double getX() {
         return x;
     }

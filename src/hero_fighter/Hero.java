@@ -14,7 +14,7 @@ public class Hero {
     private double height;
     private double velocityY; // Vertical speed
     private final double gravity = 0.1; // Gravity strength
-    private final double jumpStrength = -6; // Jump strength (negative for upward motion)
+    private final double jumpStrength = -8; // Jump strength (negative for upward motion)
     private boolean isJumping; // Flag to prevent multiple jumps
 
     private Image normalPose;
@@ -49,6 +49,22 @@ public class Hero {
         this.equippedWeapon = new Weapon("gun", 0,0);// Initialize weapon at hero's position
 
         equipWeapon(this.equippedWeapon);  // Equip the weapon
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
     }
 
     private Image loadImage(String folderPath, String fileName) {
@@ -97,11 +113,11 @@ public class Hero {
 
     // Horizontal movement logic
     if (inputHandler.isLeft()) {
-        x -= 1;
+        x -= 2;
         facingRight = false; // Face left
     }
     if (inputHandler.isRight()) {
-        x += 1;
+        x += 2;
         facingRight = true; // Face right
     }
 
@@ -129,29 +145,31 @@ public class Hero {
 
     // Check for attack (shoot gun or swing sword)
     if (inputHandler.isSpace() && !isAttacking) {
-            // Check if cooldown has passed since last bullet
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastFiredTime >= cooldownTime) {
-                isAttacking = true; // Start the attack
+    // Check if cooldown has passed since the last bullet was fired
+    long currentTime = System.currentTimeMillis();
+    if (currentTime - lastFiredTime >= cooldownTime) {
+        isAttacking = true; // Start the attack
 
-                if (equippedWeapon.getType().equals("gun")) {
-                    // If the weapon is a gun, fire a bullet in the direction the hero is facing
-                    bullets.add(new Bullet(70,  height / 2-10, true)); // Fire bullet
-                    isAttacking = false;
-                    lastFiredTime = currentTime; // Update last fired time
-                } else if (equippedWeapon.getType().equals("sword")) {
-                    // Sword attack logic (swing)
-                    attackFrame = 0; // Reset attack frame to animate the attack
-                }
-            }
+        if (equippedWeapon.getType().equals("gun")) {
+            // Fire a bullet in the direction the hero is facing
+            bullets.add(new Bullet(x + (facingRight ? width : -10), y + height / 2 - 5, facingRight)); 
+
+            lastFiredTime = currentTime; // Update the last fired time
+            isAttacking = false; // Reset attack flag for next use
+        } else if (equippedWeapon.getType().equals("sword")) {
+            // Sword attack logic (swing animation)
+            attackFrame = 0; // Reset attack frame to animate the attack
+        }
     }
+}
+
     if (isAttacking) {
         if (equippedWeapon.getType().equals("sword")) {
             attackFrame++; // Increment the attack frame
 
             // Swing the sword with a short duration of frames
             if (attackFrame < 20) { // Attack duration (swing)
-                equippedWeapon.setAngle(45); // Swing the sword (rotate by 45 degrees)
+                equippedWeapon.setAngle(75); // Swing the sword (rotate by 45 degrees)
             } else if (attackFrame < 40) { // Attack return phase
                 equippedWeapon.setAngle(0); // Return the sword to neutral position
             } else {
@@ -172,32 +190,35 @@ public class Hero {
 
 
     public void render(GraphicsContext gc) {
-        // Save the current transformation matrix
-        gc.save();
+    // Save the current transformation matrix
+    gc.save();
 
-        // Translate the position correctly without flipping transformations
-        if (!facingRight) {
-            gc.translate(x + width, y); // Translate to the right edge
-            gc.scale(-1, 1); // Flip horizontally
-        } else {
-            gc.translate(x, y); // Normal translation
-        }
-
-        // Draw the hero image
-        gc.drawImage(currentPose, 0, 0, width, height);
-
-        // Draw the equipped weapon if available
-        if (equippedWeapon != null) {
-            Image weaponImage = new Image(getClass().getResource("/hero_fighter/ressources/weapons/" + equippedWeapon.getType() + ".png").toExternalForm());
-            equippedWeapon.render(gc, weaponImage);
-        }
-         for (Bullet bullet : bullets) {
-            bullet.render(gc); // Draw each bullet
-        }
-
-        // Restore the transformation matrix
-        gc.restore();
+    // Translate the position correctly without flipping transformations
+    if (!facingRight) {
+        gc.translate(x + width, y); // Translate to the right edge
+        gc.scale(-1, 1); // Flip horizontally
+    } else {
+        gc.translate(x, y); // Normal translation
     }
+
+    // Draw the hero image
+    gc.drawImage(currentPose, 0, 0, width, height);
+
+    // Draw the equipped weapon if available
+    if (equippedWeapon != null) {
+        Image weaponImage = new Image(getClass().getResource("/hero_fighter/ressources/weapons/" + equippedWeapon.getType() + ".png").toExternalForm());
+        equippedWeapon.render(gc, weaponImage);
+    }
+
+    // Restore the transformation matrix for bullets
+    gc.restore();
+
+    // Render bullets independently, without being affected by hero flipping
+    for (Bullet bullet : bullets) {
+        bullet.render(gc); // Draw each bullet
+    }
+}
+
 }
 
 
