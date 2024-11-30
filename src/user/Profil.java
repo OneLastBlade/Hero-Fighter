@@ -24,8 +24,6 @@ public class Profil extends Account{
 		this.username = username;
 		this.level = level;
 		
-		States.put("number of game",0);
-		States.put("number of wins",0);
 			
 	}
 

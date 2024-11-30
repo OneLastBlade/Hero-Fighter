@@ -9,20 +9,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="418.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="select_game.select_game">
+<AnchorPane fx:id="mainContainer" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="select_game.select_game">
     <children>
         <!-- Background Image -->
-        <ImageView fitHeight="340.0" fitWidth="806.0" layoutX="-5.0">
+        <ImageView fitHeight="400.0" fitWidth="800.0">
             <image>
                 <Image url="@../Select_game_background/back_g1.png" />
             </image>
         </ImageView>
         
         <!-- Menu Bar -->
-        <HBox fx:id="menu_bar" layoutY="340.0" prefHeight="78.0" prefWidth="800.0" styleClass="menu_bar" stylesheets="@select_game.css">
+        <HBox fx:id="menu_bar" layoutY="321.0" prefHeight="78.0" prefWidth="800.0" styleClass="menu_bar" stylesheets="@select_game.css">
             <children>
                 <!-- Profile Button with Icon -->
-                <Button id="profile_button" fx:id="check_profile_button" mnemonicParsing="false" prefWidth="180.0" styleClass="menu_button" text="Profile">
+                <Button id="profile_button" fx:id="profle_btn" mnemonicParsing="false" onAction="#handleProfilButtonAction" prefWidth="180.0" styleClass="menu_button" text="Profile">
                     <graphic>
                         <ImageView fitHeight="35.0" fitWidth="42.0">
                             <image>
@@ -33,7 +33,7 @@
                 </Button>
 
                 <!-- Hero Button with Icon -->
-                <Button id="hero_button" fx:id="select_hero_button" mnemonicParsing="false" prefWidth="180.0" styleClass="menu_button" text="Hero">
+                <Button id="hero_button" fx:id="hero_btn" mnemonicParsing="false" onAction="#handleHeroButtonAction" prefWidth="180.0" styleClass="menu_button" text="Hero">
                     <graphic>
                         <ImageView fitHeight="32.0" fitWidth="44.0">
                             <image>
@@ -44,7 +44,7 @@
                 </Button>
 
                 <!-- Map Button with Icon -->
-                <Button id="map_button" fx:id="select_map_button" mnemonicParsing="false" prefHeight="26.0" prefWidth="180.0" styleClass="menu_button" text="Map">
+                <Button id="map_button" fx:id="map_btn" mnemonicParsing="false" onAction="#handleMapButtonAction" prefHeight="26.0" prefWidth="180.0" styleClass="menu_button" text="Map">
                     <graphic>
                         <ImageView fitHeight="26.0" fitWidth="60.0">
                             <image>
@@ -55,7 +55,7 @@
                 </Button>
 
                 <!-- Option Button with Icon -->
-                <Button id="option_button" fx:id="option_button" mnemonicParsing="false" prefWidth="180.0" styleClass="menu_button" text="Option" textAlignment="CENTER">
+                <Button id="option_button" fx:id="option_button" mnemonicParsing="false" onAction="#handleOptionButtonAction" prefWidth="180.0" styleClass="menu_button" text="Option" textAlignment="CENTER">
                     <graphic>
                         <ImageView fitHeight="24.0" fitWidth="46.0">
                             <image>
@@ -66,66 +66,67 @@
                 </Button>
             </children>
         </HBox>
-      <VBox fx:id="game1" layoutX="533.0" layoutY="66.0" prefHeight="138.0" prefWidth="75.0" styleClass="game_box" stylesheets="@select_game.css" alignment="CENTER">
-   <children>
-      <Label fx:id="game1Label" prefHeight="50.0" prefWidth="75.0" styleClass="game_label" stylesheets="@select_game.css">
-         <font>
-            <Font size="6.0" />
-         </font>
-      </Label>
-      <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="start_play" stylesheets="@select_game.css" text="Start">
-         <font>
-            <Font size="5.0" />
-         </font>
-      </Button>
-      <HBox prefHeight="71.0" prefWidth="75.0" style="-fx-padding: 10;" alignment="CENTER">
-         <children>
-            <ImageView fx:id="game1Image" fitHeight="60.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" styleClass="game_logo" />
-         </children>
-      </HBox>
-   </children>
-</VBox>
 
-<VBox fx:id="game2" layoutX="261.0" layoutY="115.0" prefHeight="138.0" prefWidth="75.0" styleClass="game_box" stylesheets="@select_game.css" alignment="CENTER">
-   <children>
-      <Label fx:id="game2Label" prefHeight="50.0" prefWidth="75.0" styleClass="game_label" stylesheets="@select_game.css">
-         <font>
-            <Font size="6.0" />
-         </font>
-      </Label>
-      <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="start_play" stylesheets="@select_game.css" text="Start">
-         <font>
-            <Font size="5.0" />
-         </font>
-      </Button>
-      <HBox prefHeight="71.0" prefWidth="75.0" style="-fx-padding: 10;" alignment="CENTER">
+        <!-- Game Sections -->
+        <VBox fx:id="game1" alignment="CENTER" layoutX="533.0" layoutY="66.0" prefHeight="138.0" prefWidth="75.0" styleClass="game_box" stylesheets="@select_game.css">
+            <children>
+                <Label fx:id="game1Label" prefHeight="50.0" prefWidth="75.0" styleClass="game_label" stylesheets="@select_game.css">
+                    <font>
+                        <Font size="3.0" />
+                    </font>
+                </Label>
+                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="start_play" stylesheets="@select_game.css" text="Start">
+                    <font>
+                        <Font size="5.0" />
+                    </font>
+                </Button>
+                <HBox alignment="CENTER" prefHeight="71.0" prefWidth="75.0" style="-fx-padding: 10;">
+                    <children>
+                        <ImageView fx:id="game1Image" fitHeight="60.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" styleClass="game_logo" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+      <VBox fx:id="game2" alignment="CENTER" layoutX="309.0" layoutY="44.0" prefHeight="138.0" prefWidth="75.0" styleClass="game_box" stylesheets="@select_game.css">
          <children>
-            <ImageView fx:id="game2Image" fitHeight="60.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" styleClass="game_logo" />
+            <Label fx:id="game2Label" prefHeight="50.0" prefWidth="75.0" styleClass="game_label" stylesheets="@select_game.css">
+               <font>
+                  <Font size="3.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="start_play" stylesheets="@select_game.css" text="Start">
+               <font>
+                  <Font size="5.0" />
+               </font>
+            </Button>
+            <HBox alignment="CENTER" prefHeight="71.0" prefWidth="75.0" style="-fx-padding: 10;">
+               <children>
+                  <ImageView fx:id="game2Image" fitHeight="60.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" styleClass="game_logo" />
+               </children>
+            </HBox>
          </children>
-      </HBox>
-   </children>
-</VBox>
+      </VBox>
+      <VBox fx:id="game3" alignment="CENTER" layoutX="57.0" layoutY="44.0" prefHeight="138.0" prefWidth="75.0" styleClass="game_box" stylesheets="@select_game.css">
+         <children>
+            <Label fx:id="game3Label" prefHeight="50.0" prefWidth="75.0" styleClass="game_label" stylesheets="@select_game.css">
+               <font>
+                  <Font size="3.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="start_play" stylesheets="@select_game.css" text="Start">
+               <font>
+                  <Font size="5.0" />
+               </font>
+            </Button>
+            <HBox alignment="CENTER" prefHeight="71.0" prefWidth="75.0" style="-fx-padding: 10;">
+               <children>
+                  <ImageView fx:id="game3Image" fitHeight="60.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" styleClass="game_logo" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
 
-<VBox fx:id="game3" layoutX="46.0" layoutY="22.0" prefHeight="138.0" prefWidth="75.0" styleClass="game_box" stylesheets="@select_game.css" alignment="CENTER">
-   <children>
-      <Label fx:id="game3Label" prefHeight="50.0" prefWidth="75.0" styleClass="game_label" stylesheets="@select_game.css">
-         <font>
-            <Font size="6.0" />
-         </font>
-      </Label>
-      <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="start_play" stylesheets="@select_game.css" text="Start">
-         <font>
-            <Font size="5.0" />
-         </font>
-      </Button>
-      <HBox prefHeight="71.0" prefWidth="75.0" style="-fx-padding: 10;" alignment="CENTER">
-         <children>
-            <ImageView fx:id="game3Image" fitHeight="60.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" styleClass="game_logo" />
-         </children>
-      </HBox>
-   </children>
-</VBox>
-      
-      
+        <!-- Similar setup for game2 and game3 (omitted for brevity) -->
+
     </children>
 </AnchorPane>

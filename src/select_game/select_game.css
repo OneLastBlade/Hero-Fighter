@@ -1,4 +1,100 @@
-/* General menu bar styling */
+/* General Profile Section Styling */
+#profil_vbox {
+    -fx-background-color: #2a2a2a; /* Dark background */
+    -fx-padding: 20px; /* Extra padding for better spacing */
+    -fx-spacing: 15px; /* More space between elements */
+    -fx-border-radius: 15px; /* More rounded corners for the profile section */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 15, 0.8, 0, 5); /* More defined shadow around the profile box */
+}
+
+/* Profile Labels (Username, Email, Pseudo) */
+#username_label, #E_mail_label, #Pseudo_label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #FFD700; /* Gold color for text to match your theme */
+    -fx-font-weight: bold;
+    -fx-padding: 8px;
+    -fx-background-color: #333333; /* Darker background for a sleek look */
+    -fx-background-radius: 8px; /* Slightly more rounded corners */
+    -fx-border-radius: 8px; /* Matching border radius */
+    -fx-border-color: #444444; /* Dark gray border */
+    -fx-border-width: 1px; /* Subtle border width */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 2); /* Soft shadow for depth */
+}
+
+/* On Hover effect */
+#username_label:hover, #E_mail_label:hover, #Pseudo_label:hover {
+    -fx-background-color: #444444; /* Lighten background slightly on hover */
+    -fx-border-color: #FFD700; /* Gold border on hover */
+    -fx-text-fill: #FFD700; /* Keep the gold text color */
+    -fx-cursor: hand; /* Hand cursor for interactivity */
+}
+
+/* On Focus effect */
+#username_label:focused, #E_mail_label:focused, #Pseudo_label:focused {
+    -fx-background-color: #444444; /* Keep the background consistent */
+    -fx-border-color: #FFA500; /* Lighter orange border when focused */
+    -fx-text-fill: #FFD700; /* Maintain gold text */
+}
+
+/* Profile text fields (optional placeholders or data entry) */
+#username_field, #email_field, #pseudo_field {
+    -fx-background-color: #333333; /* Consistent dark theme */
+    -fx-text-fill: white; /* White text for readability */
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #444444; /* Soft gray border */
+    -fx-border-width: 1px;
+}
+
+/* Focus effect for text fields */
+#username_field:focused, #email_field:focused, #pseudo_field:focused {
+    -fx-border-color: #FFD700; /* Gold border on focus */
+    -fx-text-fill: white; /* Keep text white on focus */
+    -fx-background-color: #444444; /* Slightly lighter background on focus */
+}
+
+/* Buttons in Profile Section */
+#profile_button, #hero_button, #map_button, #option_button {
+    -fx-background-color: #444444; /* Dark background for buttons */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-border-radius: 8px; /* Rounded corners for buttons */
+    -fx-alignment: center;
+    -fx-border-color: #FFD700; /* Gold border */
+    -fx-border-width: 2px; /* Border width */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 2); /* Soft shadow effect */
+}
+
+/* Hover Effects for Profile Section Buttons */
+#profile_button:hover, #hero_button:hover, #map_button:hover, #option_button:hover {
+    -fx-background-color: #555555; /* Slightly lighter background */
+    -fx-border-color: #FFD700; /* Gold border on hover */
+    -fx-cursor: hand; /* Pointer cursor */
+}
+
+/* Pressed Effects for Profile Section Buttons */
+#profile_button:pressed, #hero_button:pressed, #map_button:pressed, #option_button:pressed {
+    -fx-background-color: #666666; /* Darker background when pressed */
+}
+
+/* Styling for Labels */
+.label {
+    -fx-font-family: "Verdana"; /* Clean modern font */
+    -fx-font-size: 16px; /* Larger font size for visibility */
+    -fx-text-fill: white; /* White text for contrast */
+    -fx-font-weight: bold; /* Bold text for emphasis */
+    -fx-padding: 10px; /* Padding for better spacing */
+    -fx-alignment: center-left; /* Left align text */
+    -fx-background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    -fx-border-color: #FFD700; /* Gold border */
+    -fx-border-width: 2px; /* Slightly thicker border */
+    -fx-border-radius: 8px; /* Rounded corners */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0, 0, 2); /* Soft shadow effect */
+}
+
+/* Menu bar styling */
 .menu_bar {
     -fx-background-color: #f3b503; /* Yellow background for the menu */
     -fx-padding: 10px;
@@ -47,52 +143,86 @@
     -fx-fit-width: 30px;
 }
 
-/* Optional: Change the button color when focused */
-.menu_button:focused {
-    -fx-background-color: #e1a300; /* Focused background */
+/* General Background and Layout */
+.anchor-pane {
+    -fx-background-color: #2c2c2c; /* Dark background color */
 }
-/* Style for the entire VBox */
-/* Styling the VBox container */
-/* Styling for the VBox container (game box) */
-/* Styling for the VBox container (game box) */
+
+/* Sound Slider */
+.sound_slide {
+    -fx-track-color: #4a4a4a; /* Medium gray track color */
+    -fx-highlight-fill: linear-gradient(to right, #FFD700, #FFA500); /* Gold to orange gradient for active section */
+    -fx-thumb-color: #FFD700; /* Gold thumb color */
+    -fx-thumb-radius: 12px; /* Rounded thumb for visibility */
+    -fx-track-radius: 5px; /* Rounded track corners */
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-border-color: #FFFFFF; /* White border for contrast */
+    -fx-border-radius: 10px; /* Rounded borders */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 8, 0, 0, 2); /* Subtle shadow effect */
+}
+
+/* Resolution Radio Buttons */
+.resolution_radio {
+    -fx-mark-color: #FFD700; /* Golden mark for selected state */
+    -fx-background-color: #2c2c2c; /* Dark background */
+    -fx-border-color: #FFD700; /* Golden border */
+    -fx-border-width: 2px; /* Thicker border */
+    -fx-border-radius: 15px; /* More rounded corners */
+    -fx-padding: 8px; /* Padding for extra space */
+    -fx-cursor: hand; /* Pointer cursor for interactivity */
+    -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.6), 10, 0, 0, 5); /* Glowing effect */
+}
+
+.resolution_radio:hover {
+    -fx-background-color: rgba(255, 223, 0, 0.2); /* Light golden hover effect */
+    -fx-border-color: #FFA500; /* Orange border for hover */
+}
+
+.resolution_radio:focused {
+    -fx-mark-color: #FFA500; /* Orange mark when focused */
+}
 .game_box {
-    -fx-background-color: #2c2c2c;  /* Dark background for sleek design */
-    -fx-background-radius: 10px;    /* Rounded corners */
-    -fx-border-color: #FFD700;      /* Golden border for a premium feel */
-    -fx-border-width: 2px;          /* Thin border */
-    -fx-border-radius: 10px;        /* Rounded corners for consistency */
-    -fx-padding: 10px;              /* Padding for internal spacing */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 5); /* Subtle shadow effect */
-    -fx-alignment: center;          /* Center all content inside */
+    -fx-background-color: #2a2a2a; /* Dark background for game sections */
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    -fx-border-radius: 15px; /* Rounded corners */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 8, 0, 0, 5); /* Subtle shadow */
 }
 
-/* Styling for the Label (Game Title) */
+/* Game Label Styling */
 .game_label {
-    -fx-font-family: "Arial";       /* Clean font */
-    -fx-font-size: 12px;            /* Size of the text */
-    -fx-text-fill: #FFD700;         /* Gold color for the text */
-    -fx-font-weight: bold;          /* Bold text */
-    -fx-alignment: center;          /* Center text inside label */
+    -fx-font-size: 16px;
+    -fx-text-fill: white; /* White text for the game label */
+    -fx-font-weight: bold;
+    -fx-background-color: #333333; /* Dark background for the label */
+    -fx-padding: 10px;
+    -fx-border-radius: 10px; /* Rounded corners */
 }
 
-/* Styling for the Start Button */
-.start_play {
-    -fx-background-color: linear-gradient(to bottom, #FFD700, #FFA500); /* Gradient for the button */
-    -fx-text-fill: white;           /* White text */
-    -fx-font-size: 14px;            /* Font size for the button text */
-    -fx-font-family: "Verdana";     /* Clean font */
-    -fx-font-weight: bold;          /* Bold text */
-    -fx-border-radius: 8px;        /* Rounded corners for the button */
-    -fx-background-radius: 8px;    /* Rounded corners for button background */
-    -fx-cursor: hand;              /* Pointer cursor when hovered */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 2); /* Hover shadow effect */
-}
-
-/* Styling for the ImageView (Game Logo) */
+/* Game Logo (image) Styling */
 .game_logo {
-    -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.7), 10, 0, 0, 5); /* Glowing yellow effect */
-    -fx-border-color: #FFD700;     /* Golden border around the image */
-    -fx-border-width: 2px;         /* Thin border around the image */
-    -fx-border-radius: 10px;       /* Rounded border for the image */
-    -fx-background-radius: 10px;   /* Rounded background for consistency */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 2); /* Light shadow effect */
+}
+
+/* Game Start Button Styling */
+.start_play {
+    -fx-background-color: #FFD700; /* Gold background */
+    -fx-text-fill: black; /* Black text */
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+    -fx-border-radius: 8px; /* Rounded corners */
+    -fx-border-color: #FFD700; /* Gold border */
+    -fx-border-width: 2px;
+}
+
+/* Hover effect for start play buttons */
+.start_play:hover {
+    -fx-background-color: #FFA500; /* Orange on hover */
+    -fx-cursor: hand;
+}
+
+/* Pressed effect for start play buttons */
+.start_play:pressed {
+    -fx-background-color: #FF8C00; /* Darker orange when pressed */
 }

@@ -1,8 +1,10 @@
-	package select_game;
+package select_game;
 
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class Game_selected {
     private final ImageView gameLogo; // Holds the level image
@@ -11,10 +13,11 @@ public class Game_selected {
 
     // Constructor
     public Game_selected(int gameLevel, int playerLevel) {
+
         this.gameLevel = gameLevel;
 
         // Determine if the level is locked or unlocked
-        this.locked = this.gameLevel >= playerLevel;
+        this.locked = this.gameLevel <= playerLevel;
 
         // Initialize the gameLogo ImageView
         this.gameLogo = new ImageView();
@@ -41,7 +44,7 @@ public class Game_selected {
 
     // Create a label representing the game level
     public Label getLevelLabel() {
-        Label label = new Label(String.format("Level: %d", this.gameLevel));
+        Label label = new Label(String.format("Lvl: %d", this.gameLevel));
         label.getStyleClass().add("game-level-label"); // Add a style class for customization
         return label;
     }
