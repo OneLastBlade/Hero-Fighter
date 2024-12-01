@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #2c2c2c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="select_game.select_game">
+   <children>
+      <HBox fx:id="menu_bar" layoutY="323.0" prefHeight="37.0" prefWidth="800.0" styleClass="menu_bar" stylesheets="@select_game.css">
+         <children>
+            <Button id="profile_button" fx:id="profle_btn" mnemonicParsing="false" onAction="#handleProfilButtonAction" prefWidth="180.0" styleClass="menu_button" text="Profile">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="42.0">
+                     <image>
+                        <Image url="@../menu_bar_icones/utilisateur-de-profil.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button id="hero_button" fx:id="hero_btn" mnemonicParsing="false" onAction="#handleHeroButtonAction" prefWidth="180.0" styleClass="menu_button" text="Hero">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="44.0">
+                     <image>
+                        <Image url="@../menu_bar_icones/homme.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button id="map_button" fx:id="map_btn" mnemonicParsing="false" onAction="#handleMapButtonAction" prefHeight="26.0" prefWidth="180.0" styleClass="menu_button" text="Map">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="60.0">
+                     <image>
+                        <Image url="@../menu_bar_icones/controleur-de-jeu.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button id="option_button" fx:id="option_btn" mnemonicParsing="false" onAction="#handleOptionButtonAction" prefWidth="180.0" styleClass="menu_button" text="Option" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="47.0">
+                     <image>
+                        <Image url="@../menu_bar_icones/parametres.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+         </children>
+      </HBox>
+      <ImageView fitHeight="205.0" fitWidth="211.0" layoutX="566.0" layoutY="46.0">
+         <image>
+            <Image url="@../menu_bar_icones/parametres.png" />
+         </image>
+      </ImageView>
+      <Slider fx:id="sound_slide" layoutX="72.0" layoutY="121.0" orientation="VERTICAL" styleClass="sound_slide" stylesheets="@select_game.css" />
+      <ImageView fitHeight="40.0" fitWidth="52.0" layoutX="60.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" styleClass="sound_logo">
+         <image>
+            <Image url="@../anoter/sound.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="251.0" layoutY="72.0" prefHeight="32.0" prefWidth="131.0" text="Resolution :" textFill="WHITE">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="267.0" layoutY="117.0" prefHeight="18.0" prefWidth="119.0" text="1920*1080" textFill="#f4f4f4">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="278.0" layoutY="154.0" prefHeight="18.0" prefWidth="119.0" text="1600*920" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="278.0" layoutY="184.0" prefHeight="18.0" prefWidth="119.0" text="800*400" textFill="WHITE">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <RadioButton layoutX="251.0" layoutY="121.0" mnemonicParsing="false" stylesheets="@select_game.css" />
+      <RadioButton layoutX="251.0" layoutY="159.0" mnemonicParsing="false" stylesheets="@select_game.css" />
+      <RadioButton layoutX="241.0" layoutY="182.0" mnemonicParsing="false" styleClass="resolution_radio" stylesheets="@select_game.css" />
+   </children>
+</AnchorPane>
