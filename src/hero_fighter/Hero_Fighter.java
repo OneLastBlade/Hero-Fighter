@@ -37,6 +37,11 @@ public class Hero_Fighter extends Application {
     private List<Monster> monsters = new ArrayList<>(); // List of active monsters
     private long lastSpawnTime = 0; // Time of the last monster spawn
     private long spawnCooldown = 4500; // 5 seconds between spawns
+    private String heroName="Adventurer";
+    
+    public Hero_Fighter(String heroName){
+        this.heroName=heroName;
+    }
     
     @Override
     public void start(Stage stage) {
@@ -58,7 +63,7 @@ public class Hero_Fighter extends Application {
             inputHandler.handleKeyRelease(e.getCode());
         });
 
-        hero = new Hero(200, 500, 100, 100, "/hero_fighter/ressources/heros/adventurer/");
+        hero = new Hero(200, 500, 100, 100, "/hero_fighter/ressources/heros/"+heroName+"/");
         //Weapon sword = new Weapon("sword");
         //hero.equipWeapon(sword);
 

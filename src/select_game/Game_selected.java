@@ -1,5 +1,6 @@
 package select_game;
 
+import hero_fighter.Hero_Fighter;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,4 +49,5 @@ public class Game_selected {
         label.getStyleClass().add("game-level-label"); // Add a style class for customization
         return label;
     }
+   
 }

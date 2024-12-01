@@ -75,7 +75,7 @@
                         <Font size="3.0" />
                     </font>
                 </Label>
-                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="start_play" stylesheets="@select_game.css" text="Start">
+                <Button mnemonicParsing="false" onAction="#onGameStart" prefHeight="40.0" prefWidth="70.0" styleClass="start_play" stylesheets="@select_game.css" text="Start">
                     <font>
                         <Font size="5.0" />
                     </font>

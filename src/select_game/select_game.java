@@ -1,7 +1,9 @@
 package select_game;
 
+import hero_fighter.Hero_Fighter;
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -222,6 +224,27 @@ public class select_game extends Application {
             e.printStackTrace();
         }
     }
+    /* public void onGameStart(){
+         System.out.println("3asba lik m3amar");
+        Hero_Fighter.launch(Hero_Fighter.class);
+    }*/
+
+
+public void onGameStart(ActionEvent event) {
+    try {
+        // Retrieve the current Stage from the event source
+        Stage currentStage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+
+        
+        // Create and start the Hero_Fighter game on the current Stage
+        Hero_Fighter heroFighter = new Hero_Fighter(getSelectedChampion());
+        heroFighter.start(currentStage);
+    } catch (Exception e) {
+        e.printStackTrace();
+        System.err.println("Failed to start Hero_Fighter: " + e.getMessage());
+    }
+}
+    
 
     public static void main(String[] args) {
         launch(args);
