@@ -20,6 +20,7 @@ public class Weapon {
     private String type; // e.g., "Sword" or "Gun"
     private double x, y;  // Position of the weapon on the screen
     private double angle; // Rotation angle for the weapon
+    
 
     // Constructor
     public Weapon(String type, double x, double y) {

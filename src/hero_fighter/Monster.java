@@ -6,6 +6,9 @@ package hero_fighter;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  *
@@ -21,6 +24,7 @@ public class Monster {
     private Image currentPose; // Current pose to render
     private int walkFrame = 0; // Counter for animation frames
     private boolean faceRight=true;
+    private HealthBar healthBar; 
 
     public Monster(double x, double y) {
         this.x = x;
@@ -30,8 +34,26 @@ public class Monster {
         this.walkPose1 = new Image(getClass().getResource("/hero_fighter/ressources/monsters/zombie_walk1.png").toExternalForm());
         this.walkPose2 = new Image(getClass().getResource("/hero_fighter/ressources/monsters/zombie_walk2.png").toExternalForm());
         this.currentPose = walkPose1; // Default to the first pose
+        this.healthBar = new HealthBar(100);
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    
     // Update the monster's position to follow the hero
     public void update(double heroX, double heroY) {
         // Move horizontally towards the hero
@@ -78,6 +100,7 @@ public class Monster {
 
         // Restore the transformation matrix
         gc.restore();
+        healthBar.render(gc, x, y);
     }
 
     // Check collision with the hero
@@ -86,5 +109,16 @@ public class Monster {
                x + width > hero.getX() &&
                y < hero.getY() + hero.getHeight() &&
                y + height > hero.getY();
+    }
+    public void takeDamage(double damage) {
+        healthBar.decreaseHealth(damage); // Update health bar on taking damage
+    }
+    public boolean isDead() {
+        return healthBar.getCurrentHealth() <= 0; // Check if health is depleted
+    }
+     public boolean collidesWithSword(Polygon swordHitbox) {
+       Rectangle monsterHitbox = new Rectangle(x, y, width, height); // Monster's hitbox
+    Shape intersection = Shape.intersect(monsterHitbox, swordHitbox);
+    return intersection.getBoundsInLocal().getWidth() > 0;
     }
 }

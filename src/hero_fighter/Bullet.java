@@ -15,8 +15,8 @@ public class Bullet {
 
     private double x, y; // Position of the bullet
     private final double velocityX; // Bullet's horizontal speed (final to prevent accidental changes)
-    private final double width = 10; // Width of the bullet (adjust as needed)
-    private final double height = 5; // Height of the bullet (adjust as needed)
+    private final double width = 15; // Width of the bullet (adjust as needed)
+    private final double height = 7.5; // Height of the bullet (adjust as needed)
     private final Image image; // Bullet image
 
     public Bullet(double x, double y, boolean facingRight) {
@@ -44,4 +44,10 @@ public class Bullet {
     public double getY() {
         return y;
     }
+    public boolean collidesWith(Monster monster) {
+    return x < monster.getX() + monster.getWidth() &&
+           x + width > monster.getX() &&
+           y < monster.getY() + monster.getHeight() &&
+           y + height > monster.getY();
+}
 }

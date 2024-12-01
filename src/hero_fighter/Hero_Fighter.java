@@ -18,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import utility.Position;
 import utility.RandomBooleanGenerator;
@@ -32,14 +34,13 @@ public class Hero_Fighter extends Application {
     private InputHandler inputHandler;
     private BackgroundManager backgroundManager;
     private GameTimer gametimer;
-    private HealthBar healthbar;
     private List<Monster> monsters = new ArrayList<>(); // List of active monsters
     private long lastSpawnTime = 0; // Time of the last monster spawn
-    private long spawnCooldown = 5000; // 5 seconds between spawns
+    private long spawnCooldown = 4500; // 5 seconds between spawns
     
     @Override
     public void start(Stage stage) {
-        healthbar=new HealthBar();
+       // healthbar=new HealthBar();
         gametimer=new GameTimer();
         Canvas canvas = new Canvas(1200, 800);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -67,7 +68,7 @@ public class Hero_Fighter extends Application {
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                hero.update(inputHandler);
+                hero.update(inputHandler,monsters);
                 hero.render(gc);
                 update();
                 render(gc);
@@ -76,7 +77,7 @@ public class Hero_Fighter extends Application {
         gameLoop.start();
     }
     private void update() {
-        hero.update(inputHandler);
+        hero.update(inputHandler,monsters);
         // Spawn monsters every 5 seconds
     long currentTime = System.currentTimeMillis();
     if (currentTime - lastSpawnTime >= spawnCooldown) {
@@ -94,16 +95,48 @@ while (iterator.hasNext()) {
     // Check collision with hero
     if (monster.collidesWithHero(hero)) {
         iterator.remove(); // Remove monster on collision
+        //healthbar.decreaseHealth(20);
+        hero.takeDamage(20);
         // Optionally, reduce hero health or take other actions
     }
+    
 }
+     List<Bullet> bulletsToRemove = new ArrayList<>();
+        List<Monster> monstersToRemove = new ArrayList<>();
+        Polygon swordHitbox = hero.getSwordHitbox(); 
+        /*for (Monster monster : monsters) {
+                if (monster.collidesWithSword(swordHitbox)) {
+                    monster.takeDamage(20);
+                    // Damage the monster (e.g., 20 damage)
+                    if (monster.isDead()) {
+                        monstersToRemove.add(monster); // Remove dead monsters
+                    }
+                    
+                }}*/
+
+        for (Bullet bullet : hero.getBullets()) {
+            for (Monster monster : monsters) {
+                if (bullet.collidesWith(monster)) {
+                    bulletsToRemove.add(bullet);
+                    //monstersToRemove.add(monster);
+                    monster.takeDamage(25);
+                    if (monster.isDead()) {
+                        monstersToRemove.add(monster); // Remove dead monsters
+                    }
+                }
+            }
+
+    }
+
+        hero.getBullets().removeAll(bulletsToRemove);
+        monsters.removeAll(monstersToRemove);
     }
     private void render(GraphicsContext gc) {
         gc.clearRect(0, 0, 1200, 800);
         backgroundManager.render(gc);
         hero.render(gc);
         gametimer.renderTimer(gc,1200);
-        healthbar.renderHealthBar(gc);
+       // healthbar.renderHealthBar(gc);
         for (Monster monster : monsters) {
             monster.render(gc);
         }

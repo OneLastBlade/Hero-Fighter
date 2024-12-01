@@ -11,35 +11,46 @@ import javafx.scene.canvas.GraphicsContext;
 public class HealthBar {
     private double maxHealth = 100;
     private double currentHealth = 100;
-    private double width = 200;
-    private double height = 20;
+    private double width = 50; // Default width of the health bar
+    private double height = 5; // Default height of the health bar
+    private boolean isMonster=true;
 
-    // Constructor to initialize health bar
+    // Constructor
+    public HealthBar(double maxHealth) {
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
+    }
+    public HealthBar(double maxHealth,boolean isMonster) {
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
+        this.isMonster = isMonster;
+    }
 
     // Method to decrease health based on damage
     public void decreaseHealth(double damage) {
         currentHealth = Math.max(0, currentHealth - damage); // Prevent negative health
     }
 
-    // Method to render health bar on the canvas
-    public void renderHealthBar(GraphicsContext gc) {
+    // Method to render health bar relative to an entity
+    public void render(GraphicsContext gc, double x, double y) {
         // Draw background (gray bar)
         gc.setFill(Color.GRAY);
-        gc.fillRect(20, 30, width, height);  // Position and size for background bar
+        gc.fillRect(x+13, y - 10, width, height); // Position above the entity
 
-        // Calculate the health percentage and draw the health bar (red bar)
+        // Calculate health percentage and draw the health (green bar)
         double healthPercentage = currentHealth / maxHealth;
-        gc.setFill(Color.RED);
-        gc.fillRect(20, 30, width * healthPercentage, height);  // Adjust the width based on health
+        gc.setFill(isMonster?Color.RED:Color.LAWNGREEN);
+        gc.fillRect(x+13, y - 10, width * healthPercentage, height);
     }
 
-    // Optional: Method to reset health (useful for testing)
+    // Method to reset health
     public void resetHealth() {
         currentHealth = maxHealth;
     }
 
-    // Optional: Method to get current health for display purposes
+    // Method to get current health
     public double getCurrentHealth() {
         return currentHealth;
     }
 }
+

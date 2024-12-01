@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import utility.Position;
 
 public class Hero {
@@ -30,6 +32,7 @@ public class Hero {
     private boolean isAttacking=false;
     private long lastFiredTime = 0;
     private final long cooldownTime = 1000;
+    private HealthBar healthBar;
 
     public Hero(double x, double y, double width, double height, String folderPath) {
         this.x = x;
@@ -49,6 +52,7 @@ public class Hero {
         this.equippedWeapon = new Weapon("gun", 0,0);// Initialize weapon at hero's position
 
         equipWeapon(this.equippedWeapon);  // Equip the weapon
+        this.healthBar = new HealthBar(100,false);
     }
 
     public double getX() {
@@ -66,6 +70,9 @@ public class Hero {
     public double getHeight() {
         return height;
     }
+    public List<Bullet> getBullets() {
+    return bullets;
+}
 
     private Image loadImage(String folderPath, String fileName) {
         String fullPath = folderPath + "/" + fileName;
@@ -91,7 +98,7 @@ public class Hero {
             equippedWeapon.setY( weaponOffsetY+equippedWeapon.getAngle());}
     }
 
-  public void update(InputHandler inputHandler) {
+  public void update(InputHandler inputHandler, List<Monster> monsters) {
     // Jump logic
     if (inputHandler.isUp() && !isJumping) {
         isJumping = true;
@@ -165,17 +172,19 @@ public class Hero {
 
     if (isAttacking) {
         if (equippedWeapon.getType().equals("sword")) {
-            attackFrame++; // Increment the attack frame
+            attackFrame++; // Increment attack frame
 
-            // Swing the sword with a short duration of frames
-            if (attackFrame < 20) { // Attack duration (swing)
-                equippedWeapon.setAngle(75); // Swing the sword (rotate by 45 degrees)
-            } else if (attackFrame < 40) { // Attack return phase
-                equippedWeapon.setAngle(0); // Return the sword to neutral position
-            } else {
-                isAttacking = false; // End the attack after the animation is done
+            if (attackFrame < 20) { // Sword swing phase
+                equippedWeapon.setAngle(75); // Sword swing animation
+            } else if (attackFrame < 40) { // Return phase
                 equippedWeapon.setAngle(0); // Reset sword to neutral position
+            } else {
+                isAttacking = false; // End attack after animation
+                equippedWeapon.setAngle(0); // Reset sword position
             }
+
+            // Check if the sword hitbox collides with any monster
+            
         }
     }
 
@@ -188,7 +197,40 @@ public class Hero {
     equipWeapon(equippedWeapon); // Update the weapon's position relative to the hero
 }
 
+public Polygon getSwordHitbox() {
+    // Sword position and dimensions
+    double swordLength = 120;  // Length of the sword
+    double swordThickness = 5;  // Thickness of the sword
 
+    // Adjust sword position based on facing direction
+    double swordX = facingRight ? x + width : x - swordLength; // Depending on direction
+    double swordY = y + height / 2;  // Position the sword vertically relative to the hero
+
+    // Calculate the sword's rotation angle in radians
+    double angleInRadians = Math.toRadians(equippedWeapon.getAngle());
+
+    // Calculate rotation cosine and sine values
+    double cos = Math.cos(angleInRadians);
+    double sin = Math.sin(angleInRadians);
+
+    // Calculate the four corners of the rotated sword hitbox
+    // Use the current hero position and rotation to calculate the sword's end points
+    double x1 = swordX;  // Start point of the sword
+    double y1 = swordY;  // Start point of the sword
+    double x2 = swordX + swordLength * cos;  // End point of the sword
+    double y2 = swordY + swordLength * sin;
+
+    // Determine the thickness of the sword to create a rectangular hitbox
+    double x3 = x2 - swordThickness * sin;  // Offset for thickness at the end
+    double y3 = y2 + swordThickness * cos;
+    double x4 = x1 - swordThickness * sin;  // Offset for thickness at the start
+    double y4 = y1 + swordThickness * cos;
+
+    // Create the Polygon (rotated sword hitbox)
+    Polygon swordHitbox = new Polygon(x1, y1, x2, y2, x3, y3, x4, y4);
+
+    return swordHitbox;
+}
     public void render(GraphicsContext gc) {
     // Save the current transformation matrix
     gc.save();
@@ -217,7 +259,11 @@ public class Hero {
     for (Bullet bullet : bullets) {
         bullet.render(gc); // Draw each bullet
     }
+    healthBar.render(gc, x, y);
 }
+    public void takeDamage(double damage) {
+        healthBar.decreaseHealth(damage); // Update health bar on taking damage
+    }
 
 }
 
