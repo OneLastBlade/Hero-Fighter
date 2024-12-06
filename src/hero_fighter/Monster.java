@@ -25,6 +25,15 @@ public class Monster {
     private int walkFrame = 0; // Counter for animation frames
     private boolean faceRight=true;
     private HealthBar healthBar; 
+    private boolean hitThisAttack = false;
+
+public boolean isHitThisAttack() {
+    return hitThisAttack;
+}
+
+public void setHitThisAttack(boolean hitThisAttack) {
+    this.hitThisAttack = hitThisAttack;
+}
 
     public Monster(double x, double y) {
         this.x = x;

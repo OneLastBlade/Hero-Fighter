@@ -10,49 +10,74 @@ import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-public class GameTimer {
-    private int timeInSeconds = 180;  // 3 minutes in seconds
-    private final Font timerFont = new Font("Arial", 50);  // Set larger font size
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
+public class GameTimer {
+    private int timeInSeconds = 180;  // Total game time in seconds
+    private final Font timerFont = new Font("Arial", 50);  // Font for timer display
     private String timerText = "";
+    private long lastUpdateTime;
+    private boolean isTimeUp = false;
 
     public GameTimer() {
         updateTimerText();
+        lastUpdateTime = System.nanoTime();  // Initialize the timer
+    }
 
-        // Timer countdown logic
-        Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(1), e -> {
-                if (timeInSeconds > 0) {
-                    timeInSeconds--;
-                    updateTimerText();
-                }
-            })
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+    public void update() {
+        if (isTimeUp) {
+            return;  // Stop updating if time is up
+        }
+
+        long currentTime = System.nanoTime();
+        long elapsedTime = (currentTime - lastUpdateTime) / 1_000_000_000;
+
+        if (elapsedTime >= 1) {
+            timeInSeconds--;
+            lastUpdateTime = currentTime;
+            updateTimerText();
+        }
+
+        if (timeInSeconds <= 0) {
+            isTimeUp = true;
+            timeInSeconds = 0;  // Ensure time does not go negative
+            updateTimerText();
+        }
     }
 
     private void updateTimerText() {
         int minutes = timeInSeconds / 60;
         int seconds = timeInSeconds % 60;
-        timerText = String.format("%02d:%02d", minutes, seconds);  // Update the timer display
+        timerText = String.format("%02d:%02d", minutes, seconds);
     }
 
     public void renderTimer(GraphicsContext gc, double canvasWidth) {
-        gc.setFont(timerFont);  // Set font for the timer
-        gc.setFill(Color.WHITE);  // Set text color to white
+        gc.setFont(timerFont);
+        gc.setFill(Color.WHITE);  // Set timer text color
 
-        // Calculate the x-coordinate for centering
-        double textWidth = gc.getFont().getSize() * timerText.length() / 2.5;  // Estimate width based on font size
+        // Calculate text width for centering
+        Text text = new Text(timerText);
+        text.setFont(timerFont);
+        double textWidth = text.getBoundsInLocal().getWidth();
+
+        // Center the timer text
         double x = (canvasWidth - textWidth) / 2;
 
-        // Render the timer text in the middle at the top of the screen
-        gc.fillText(timerText, x, 60);  // Adjust y-position for top
+        gc.fillText(timerText, x, 60);  // Render at the top-center of the screen
+    }
+
+    public int getRemainingTime() {
+        return timeInSeconds;
+    }
+
+    public boolean isTimeUp() {
+        return isTimeUp;
     }
 }
-
-
-
 

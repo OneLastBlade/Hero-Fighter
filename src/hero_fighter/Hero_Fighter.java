@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -33,20 +34,27 @@ public class Hero_Fighter extends Application {
     private Hero hero;
     private InputHandler inputHandler;
     private BackgroundManager backgroundManager;
-    private GameTimer gametimer;
+    private GameTimer gameTimer;
     private List<Monster> monsters = new ArrayList<>(); // List of active monsters
     private long lastSpawnTime = 0; // Time of the last monster spawn
     private long spawnCooldown = 4500; // 5 seconds between spawns
-    private String heroName="Adventurer";
+    private String heroName="alex";
+    private boolean isGameOver = false;
+    private boolean isGameWon = false;
+    private long redAnimationStart = 0;
+    private Boss boss;
     
     public Hero_Fighter(String heroName){
         this.heroName=heroName;
+    }
+    public Hero_Fighter(){
+       this.boss = new Boss(Math.random() + 0.0 < 0.5 ? 0.0 : 1200.0, 450.0);
     }
     
     @Override
     public void start(Stage stage) {
        // healthbar=new HealthBar();
-        gametimer=new GameTimer();
+        gameTimer=new GameTimer();
         Canvas canvas = new Canvas(1200, 800);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         stage.setResizable(false);
@@ -73,10 +81,15 @@ public class Hero_Fighter extends Application {
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                if (!isGameOver && !isGameWon) {
                 hero.update(inputHandler,monsters);
                 hero.render(gc);
                 update();
                 render(gc);
+            }
+                 else {
+                    renderEndScreen(gc);
+                }
             }
         };
         gameLoop.start();
@@ -84,11 +97,22 @@ public class Hero_Fighter extends Application {
     private void update() {
         hero.update(inputHandler,monsters);
         // Spawn monsters every 5 seconds
+         gameTimer.update();
+
+        if (hero.getHealth() <= 0) {
+            isGameOver = true;
+        }
+
+        if (gameTimer.isTimeUp()) {
+            isGameWon = hero.getHealth() > 0;
+            isGameOver = true;
+        }
     long currentTime = System.currentTimeMillis();
     if (currentTime - lastSpawnTime >= spawnCooldown) {
     lastSpawnTime = currentTime;
     spawnCooldown -= 50;
     monsters.add(new Monster(RandomBooleanGenerator.getRandomBoolean() ? 0 : 1200, 500)); // Random spawn position
+    boss.update(hero.getX(), hero.getY()+50);
 }
 
 // Update monsters
@@ -109,15 +133,13 @@ while (iterator.hasNext()) {
      List<Bullet> bulletsToRemove = new ArrayList<>();
         List<Monster> monstersToRemove = new ArrayList<>();
         Polygon swordHitbox = hero.getSwordHitbox(); 
-        /*for (Monster monster : monsters) {
+        for (Monster monster : monsters) {
                 if (monster.collidesWithSword(swordHitbox)) {
-                    monster.takeDamage(20);
-                    // Damage the monster (e.g., 20 damage)
                     if (monster.isDead()) {
                         monstersToRemove.add(monster); // Remove dead monsters
                     }
                     
-                }}*/
+                }}
 
         for (Bullet bullet : hero.getBullets()) {
             for (Monster monster : monsters) {
@@ -138,14 +160,44 @@ while (iterator.hasNext()) {
     }
     private void render(GraphicsContext gc) {
         gc.clearRect(0, 0, 1200, 800);
+         if (gameTimer.getRemainingTime() <= 15) {
+            if (redAnimationStart == 0) {
+                redAnimationStart = System.currentTimeMillis();
+            }
+            long elapsed = (System.currentTimeMillis() - redAnimationStart) / 500 % 2;
+            if (elapsed == 0) {
+                gc.setFill(Color.rgb(255, 0, 0, 0.3));
+                gc.fillRect(0, 0, 1200, 800);
+            }
+        }
         backgroundManager.render(gc);
         hero.render(gc);
-        gametimer.renderTimer(gc,1200);
+        gameTimer.renderTimer(gc,1200);
+        
        // healthbar.renderHealthBar(gc);
         for (Monster monster : monsters) {
             monster.render(gc);
         }
+        boss.render(gc);
         
+    }
+      private void renderEndScreen(GraphicsContext gc) {
+        gc.clearRect(0, 0, 1200, 800);
+
+        String message;
+        Color color;
+
+        if (isGameWon) {
+            message = "You Win!";
+            color = Color.GREEN;
+        } else {
+            message = "Game Over!";
+            color = Color.RED;
+        }
+
+        gc.setFill(color);
+        gc.setFont(javafx.scene.text.Font.font("Arial", 64));
+        gc.fillText(message, 450, 400);
     }
 
     public static void main(String[] args) {

@@ -30,6 +30,9 @@ public class HealthBar {
     public void decreaseHealth(double damage) {
         currentHealth = Math.max(0, currentHealth - damage); // Prevent negative health
     }
+    public void increaseHealth(double health) {
+        currentHealth = Math.max(maxHealth, currentHealth + health); // Prevent negative health
+    }
 
     // Method to render health bar relative to an entity
     public void render(GraphicsContext gc, double x, double y) {

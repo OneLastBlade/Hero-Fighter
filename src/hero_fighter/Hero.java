@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import utility.Position;
@@ -31,7 +32,7 @@ public class Hero {
     private int attackFrame=0;
     private boolean isAttacking=false;
     private long lastFiredTime = 0;
-    private final long cooldownTime = 1000;
+    private final long cooldownTime = 750;
     private HealthBar healthBar;
 
     public Hero(double x, double y, double width, double height, String folderPath) {
@@ -175,18 +176,33 @@ public class Hero {
             attackFrame++; // Increment attack frame
 
             if (attackFrame < 20) { // Sword swing phase
-                equippedWeapon.setAngle(75); // Sword swing animation
+                equippedWeapon.setAngle(75); 
+            
             } else if (attackFrame < 40) { // Return phase
                 equippedWeapon.setAngle(0); // Reset sword to neutral position
             } else {
                 isAttacking = false; // End attack after animation
                 equippedWeapon.setAngle(0); // Reset sword position
             }
-
-            // Check if the sword hitbox collides with any monster
             
-        }
+
+
+            Polygon swordHitbox = getSwordHitbox();
+            // Check if the sword hitbox collides with any monster
+            for (Monster monster : monsters) {
+                if (!monster.isHitThisAttack() && monster.collidesWithSword(swordHitbox)) {
+                    monster.takeDamage(20);
+                monster.setHitThisAttack(true); // Mark monster as hit for this attack
     }
+}         
+       }
+    }
+    // Reset the hit flag at the end of the attack cycle
+if (!isAttacking) {
+    for (Monster monster : monsters) {
+        monster.setHitThisAttack(false);
+    }
+}
 
     // Update bullets
     for (Bullet bullet : bullets) {
@@ -201,36 +217,36 @@ public Polygon getSwordHitbox() {
     // Sword position and dimensions
     double swordLength = 120;  // Length of the sword
     double swordThickness = 5;  // Thickness of the sword
+    double swordX, swordY;
 
     // Adjust sword position based on facing direction
-    double swordX = facingRight ? x + width : x - swordLength; // Depending on direction
-    double swordY = y + height / 2;  // Position the sword vertically relative to the hero
+    if (facingRight) {
+        swordX = x + width; // Start at the hero's right hand
+        swordY = y + height / 2;
+    } else {
+        swordX = x - swordLength; // Start at the hero's left hand
+        swordY = y + height / 2;
+    }
 
-    // Calculate the sword's rotation angle in radians
+    // Calculate the rotation angle in radians
     double angleInRadians = Math.toRadians(equippedWeapon.getAngle());
-
-    // Calculate rotation cosine and sine values
     double cos = Math.cos(angleInRadians);
     double sin = Math.sin(angleInRadians);
 
-    // Calculate the four corners of the rotated sword hitbox
-    // Use the current hero position and rotation to calculate the sword's end points
-    double x1 = swordX;  // Start point of the sword
-    double y1 = swordY;  // Start point of the sword
-    double x2 = swordX + swordLength * cos;  // End point of the sword
+    // Calculate the sword's corners for the hitbox
+    double x1 = swordX;
+    double y1 = swordY;
+    double x2 = swordX + swordLength * cos;
     double y2 = swordY + swordLength * sin;
-
-    // Determine the thickness of the sword to create a rectangular hitbox
-    double x3 = x2 - swordThickness * sin;  // Offset for thickness at the end
+    double x3 = x2 - swordThickness * sin;
     double y3 = y2 + swordThickness * cos;
-    double x4 = x1 - swordThickness * sin;  // Offset for thickness at the start
+    double x4 = x1 - swordThickness * sin;
     double y4 = y1 + swordThickness * cos;
 
-    // Create the Polygon (rotated sword hitbox)
-    Polygon swordHitbox = new Polygon(x1, y1, x2, y2, x3, y3, x4, y4);
-
-    return swordHitbox;
+    // Create the Polygon hitbox
+    return new Polygon(x1, y1, x2, y2, x3, y3, x4, y4);
 }
+
     public void render(GraphicsContext gc) {
     // Save the current transformation matrix
     gc.save();
@@ -260,9 +276,14 @@ public Polygon getSwordHitbox() {
         bullet.render(gc); // Draw each bullet
     }
     healthBar.render(gc, x, y);
+
 }
     public void takeDamage(double damage) {
         healthBar.decreaseHealth(damage); // Update health bar on taking damage
+    }
+
+    double getHealth() {
+        return healthBar.getCurrentHealth();
     }
 
 }
