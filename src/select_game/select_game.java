@@ -44,17 +44,30 @@ public class select_game extends Application {
     @FXML
     private RadioButton SYNDRA_radio, ALEX_radio, CRISTIAN_radio;
     @FXML
+    private RadioButton gun_radio , sword_radio ;
+    @FXML
     private ToggleGroup HERO;
+    @FXML
+    private ToggleGroup WEAPON ;
 
     // Static variable to store the selected champion globally
     private static String selectedChampion = "";
+    private static String selectedWeapon ="";
 
     public static String getSelectedChampion() {
         return selectedChampion;
     }
+    
+    public static String getSelectedWeapon() {
+    	return selectedWeapon ;
+    }
 
     public static void setSelectedChampion(String champion) {
         selectedChampion = champion;
+    }
+    
+    public static void setSelectedWeapon(String weapon) {
+    	selectedWeapon =weapon ;
     }
 
     // FXML elements for game selection
@@ -94,7 +107,16 @@ public class select_game extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+    //weapon selection logic 
+    public void selectWeapon(ActionEvent e) {
+    	if(gun_radio.isSelected()) {
+    		setSelectedWeapon("gun");
+    	}else if (sword_radio.isSelected()) {
+    		setSelectedWeapon("sword");
+    	}
+    	System.out.println(getSelectedWeapon());
+    }
+  
     // Hero selection logic
     public void select_hero(ActionEvent e) {
         if (ALEX_radio.isSelected()) {
@@ -140,6 +162,23 @@ public class select_game extends Application {
             selected_hero.setImage(new Image(getClass().getResourceAsStream("/champions_logo/synda_talk.png")));
         } else if ("cristian".equals(getSelectedChampion())) {
             selected_hero.setImage(new Image(getClass().getResourceAsStream("/champions_logo/cristian_talk.png")));
+        }
+    }
+    
+    public void update_weapon_selection() {
+        System.out.println("Selected weapon: " + getSelectedWeapon()); // Debugging
+
+        // Check the currently selected weapon and update the radio buttons
+        if ("gun".equals(getSelectedWeapon())) {
+            gun_radio.setSelected(true);
+            sword_radio.setSelected(false);
+        } else if ("".equals(getSelectedWeapon())) {
+            sword_radio.setSelected(true);
+            gun_radio.setSelected(false);
+        } else {
+            // If no weapon is selected, reset the radio buttons (optional)
+            gun_radio.setSelected(false);
+            sword_radio.setSelected(false);
         }
     }
 
@@ -213,6 +252,7 @@ public class select_game extends Application {
             }
 
             if ("hero.fxml".equals(fxmlFile)) {
+            	controller.update_weapon_selection();//Ensure the weapon selection is updated ;
                 controller.update_hero_selection();  // Ensure the hero selection is updated
             }
 

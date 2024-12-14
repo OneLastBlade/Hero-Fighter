@@ -8,8 +8,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #2c2c2c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="select_game.select_game">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #f3b503;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="select_game.select_game">
    <children>
       <HBox fx:id="menu_bar" layoutY="323.0" prefHeight="37.0" prefWidth="800.0" styleClass="menu_bar" stylesheets="@select_game.css">
          <children>
@@ -51,12 +53,21 @@
             </Button>
          </children>
       </HBox>
-      <RadioButton fx:id="ALEX_radio" layoutX="60.0" layoutY="149.0" mnemonicParsing="false" onAction="#select_hero" styleClass="radio_to_select" stylesheets="@select_game.css" text="ALEX">
+      <RadioButton fx:id="ALEX_radio" layoutX="46.0" layoutY="128.0" mnemonicParsing="false" onAction="#select_hero" styleClass="radio_to_select" stylesheets="@select_game.css" text="ALEX">
          <toggleGroup>
             <ToggleGroup fx:id="HERO" />
-         </toggleGroup></RadioButton>
-      <RadioButton fx:id="CRISTIAN_radio" layoutX="155.0" layoutY="149.0" mnemonicParsing="false" onAction="#select_hero" styleClass="radio_to_select" stylesheets="@select_game.css" text="CRISTIAN" toggleGroup="$HERO" />
-      <RadioButton fx:id="SYNDRA_radio" layoutX="273.0" layoutY="149.0" mnemonicParsing="false" onAction="#select_hero" styleClass="radio_to_select" stylesheets="@select_game.css" text="SYNDRA" toggleGroup="$HERO" />
+         </toggleGroup>
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="CRISTIAN_radio" layoutX="141.0" layoutY="129.0" mnemonicParsing="false" onAction="#select_hero" styleClass="radio_to_select" stylesheets="@select_game.css" text="CRISTIAN" toggleGroup="$HERO">
+         <font>
+            <Font size="14.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="SYNDRA_radio" layoutX="247.0" layoutY="120.0" mnemonicParsing="false" onAction="#select_hero" prefHeight="38.0" prefWidth="107.0" styleClass="radio_to_select" stylesheets="@select_game.css" text="SYNDRA" toggleGroup="$HERO">
+         <font>
+            <Font name="Arial Italic" size="13.0" />
+         </font></RadioButton>
       <ImageView fx:id="selected_hero" fitHeight="188.0" fitWidth="241.0" layoutX="539.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="selected_hero" />
       <Label fx:id="shl" layoutX="558.0" layoutY="238.0" styleClass="selected_hero_label" stylesheets="@select_game.css" text="choose hero plz !" />
       <HBox layoutX="33.0" layoutY="14.0" prefHeight="100.0" prefWidth="300.0" styleClass="selected_hero_HBOX" stylesheets="@select_game.css">
@@ -78,5 +89,33 @@
             </ImageView>
          </children>
       </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" />
+      <VBox layoutX="33.0" layoutY="158.0" prefHeight="159.0" prefWidth="100.0">
+         <children>
+            <ImageView fitHeight="80.0" fitWidth="100.0">
+               <image>
+                  <Image url="@../hero_fighter/ressources/weapons/gun.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="80.0" fitWidth="100.0">
+               <image>
+                  <Image url="@../hero_fighter/ressources/weapons/sword.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+      <RadioButton fx:id="gun_radio" layoutX="166.0" layoutY="191.0" mnemonicParsing="false" onAction="#selectWeapon" styleClass="radio_to_select" stylesheets="@select_game.css" text="gun">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="WEAPON" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="sword_radio" layoutX="166.0" layoutY="271.0" mnemonicParsing="false" onAction="#selectWeapon" styleClass="radio_to_select" stylesheets="@select_game.css" text="sword" toggleGroup="$WEAPON">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </RadioButton>
    </children>
 </AnchorPane>
