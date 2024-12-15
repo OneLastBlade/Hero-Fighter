@@ -277,7 +277,7 @@ public void onGameStart(ActionEvent event) {
 
         
         // Create and start the Hero_Fighter game on the current Stage
-        Hero_Fighter heroFighter = new Hero_Fighter(getSelectedChampion());
+        Hero_Fighter heroFighter = new Hero_Fighter(getSelectedChampion(),getSelectedWeapon());
         heroFighter.start(currentStage);
     } catch (Exception e) {
         e.printStackTrace();

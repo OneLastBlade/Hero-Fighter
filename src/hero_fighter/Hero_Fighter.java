@@ -39,16 +39,18 @@ public class Hero_Fighter extends Application {
     private long lastSpawnTime = 0; // Time of the last monster spawn
     private long spawnCooldown = 4500; // 5 seconds between spawns
     private String heroName="alex";
+    private String weapon="gun";
     private boolean isGameOver = false;
     private boolean isGameWon = false;
     private long redAnimationStart = 0;
-    private Boss boss;
+   // private Boss boss;
     
-    public Hero_Fighter(String heroName){
+    public Hero_Fighter(String heroName,String weapon){
         this.heroName=heroName;
+        this.weapon=weapon;
     }
     public Hero_Fighter(){
-       this.boss = new Boss(Math.random() + 0.0 < 0.5 ? 0.0 : 1200.0, 450.0);
+       //this.boss = new Boss(Math.random() + 0.0 < 0.5 ? 0.0 : 1200.0, 450.0);
     }
     
     @Override
@@ -71,7 +73,7 @@ public class Hero_Fighter extends Application {
             inputHandler.handleKeyRelease(e.getCode());
         });
 
-        hero = new Hero(200, 500, 100, 100, "/hero_fighter/ressources/heros/"+heroName+"/");
+        hero = new Hero(200, 500, 100, 100, "/hero_fighter/ressources/heros/"+heroName+"/",weapon);
         //Weapon sword = new Weapon("sword");
         //hero.equipWeapon(sword);
 
@@ -112,7 +114,7 @@ public class Hero_Fighter extends Application {
     lastSpawnTime = currentTime;
     spawnCooldown -= 50;
     monsters.add(new Monster(RandomBooleanGenerator.getRandomBoolean() ? 0 : 1200, 500)); // Random spawn position
-    boss.update(hero.getX(), hero.getY()+50);
+    //boss.update(hero.getX(), hero.getY()+50);
 }
 
 // Update monsters
@@ -178,7 +180,7 @@ while (iterator.hasNext()) {
         for (Monster monster : monsters) {
             monster.render(gc);
         }
-        boss.render(gc);
+       // boss.render(gc);
         
     }
       private void renderEndScreen(GraphicsContext gc) {

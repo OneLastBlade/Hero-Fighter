@@ -35,7 +35,7 @@ public class Hero {
     private final long cooldownTime = 750;
     private HealthBar healthBar;
 
-    public Hero(double x, double y, double width, double height, String folderPath) {
+    public Hero(double x, double y, double width, double height, String folderPath,String weaponName) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -50,7 +50,7 @@ public class Hero {
         this.jumpPose = loadImage(folderPath, "jump.png");
 
         this.currentPose = normalPose; // Default pose
-        this.equippedWeapon = new Weapon("gun", 0,0);// Initialize weapon at hero's position
+        this.equippedWeapon = new Weapon(weaponName, 0,0);// Initialize weapon at hero's position
 
         equipWeapon(this.equippedWeapon);  // Equip the weapon
         this.healthBar = new HealthBar(100,false);
