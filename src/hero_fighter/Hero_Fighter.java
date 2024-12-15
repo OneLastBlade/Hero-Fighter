@@ -50,7 +50,6 @@ public class Hero_Fighter extends Application {
     public Hero_Fighter(){
        this.boss = new Boss(Math.random() + 0.0 < 0.5 ? 0.0 : 1200.0, 450.0);
     }
-    
     @Override
     public void start(Stage stage) {
        // healthbar=new HealthBar();
@@ -58,7 +57,7 @@ public class Hero_Fighter extends Application {
         Canvas canvas = new Canvas(1200, 800);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         stage.setResizable(false);
-        Scene scene = new Scene(new Pane(canvas), 1200, 800);
+        Scene scene = new Scene(new Pane(canvas), 1200, 600);
         stage.setScene(scene);
         backgroundManager = new BackgroundManager("/hero_fighter/ressources/map/background1yellow.jpg", 1200, 800);
         inputHandler = new InputHandler();
@@ -112,18 +111,42 @@ public class Hero_Fighter extends Application {
     lastSpawnTime = currentTime;
     spawnCooldown -= 50;
     monsters.add(new Monster(RandomBooleanGenerator.getRandomBoolean() ? 0 : 1200, 500)); // Random spawn position
-    boss.update(hero.getX(), hero.getY()+50);
 }
 
 // Update monsters
-Iterator<Monster> iterator = monsters.iterator();
+Iterator<Monster> iterator =  this.boss.getMinions().iterator();
 while (iterator.hasNext()) {
     Monster monster = iterator.next();
-    monster.update(hero.getX(), 500); // Follow the hero
 
     // Check collision with hero
     if (monster.collidesWithHero(hero)) {
         iterator.remove(); // Remove monster on collision
+        //healthbar.decreaseHealth(20)
+        hero.takeDamage(20);
+        // Optionally, reduce hero health or take other actions
+    }
+    
+}
+boolean heroisveryclose=boss.damagefrompunches();
+boolean heroisclose=boss.herotakedamagefromjump(hero.getX(),hero.getY());
+boss.attackhero(hero.getX(), hero.getY());
+if (heroisveryclose==true)
+{
+    hero.takeDamage(1);
+}
+if (heroisclose==true)
+{
+    hero.takeDamage(5);
+}
+Iterator<Monster> iterator1 = monsters.iterator();
+while (iterator1.hasNext()) {
+    Monster monster = iterator1.next();
+    monster.update(hero.getX(), 500); // Follow the hero
+    boss.update(hero.getX(), hero.getY()+50);
+
+    // Check collision with hero
+    if (monster.collidesWithHero(hero)) {
+        iterator1.remove(); // Remove monster on collision
         //healthbar.decreaseHealth(20);
         hero.takeDamage(20);
         // Optionally, reduce hero health or take other actions
@@ -142,11 +165,29 @@ while (iterator.hasNext()) {
                 }}
 
         for (Bullet bullet : hero.getBullets()) {
+            
+            if (bullet.collideWith(boss)) 
+            {
+                    bulletsToRemove.add(bullet);
+                    //monstersToRemove.add(monster);
+                    boss.takeDamage(100);
+            }
+            for (Monster minion:this.boss.getMinions())
+            {
+              if (bullet.collidesWith(minion)) {
+                    bulletsToRemove.add(bullet);
+                    //monstersToRemove.add(monster);
+                    minion.takeDamage(100);
+                    if (minion.isDead()) {
+                        monstersToRemove.add(minion); // Remove dead monsters
+                    }
+                }  
+            }
             for (Monster monster : monsters) {
                 if (bullet.collidesWith(monster)) {
                     bulletsToRemove.add(bullet);
                     //monstersToRemove.add(monster);
-                    monster.takeDamage(25);
+                    monster.takeDamage(100);
                     if (monster.isDead()) {
                         monstersToRemove.add(monster); // Remove dead monsters
                     }
@@ -157,6 +198,7 @@ while (iterator.hasNext()) {
 
         hero.getBullets().removeAll(bulletsToRemove);
         monsters.removeAll(monstersToRemove);
+        this.boss.getMinions().removeAll(monstersToRemove);
     }
     private void render(GraphicsContext gc) {
         gc.clearRect(0, 0, 1200, 800);

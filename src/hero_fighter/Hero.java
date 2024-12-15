@@ -53,7 +53,7 @@ public class Hero {
         this.equippedWeapon = new Weapon("gun", 0,0);// Initialize weapon at hero's position
 
         equipWeapon(this.equippedWeapon);  // Equip the weapon
-        this.healthBar = new HealthBar(100,false);
+        this.healthBar = new HealthBar(300,false);
     }
 
     public double getX() {

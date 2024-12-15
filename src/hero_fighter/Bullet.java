@@ -50,4 +50,11 @@ public class Bullet {
            y < monster.getY() + monster.getHeight() &&
            y + height > monster.getY();
 }
+    public boolean collideWith(Boss monster) 
+    {
+     return x < monster.getX() + monster.getWidth() &&
+           x + width > monster.getX() &&
+           y < monster.getY() + monster.getHeight() &&
+           y + height > monster.getY();
+    }
 }
