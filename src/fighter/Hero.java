@@ -1,5 +1,11 @@
-package hero_fighter;
+package fighter;
 
+import utility.InputHandler;
+import equipement.Bullet;
+import equipement.Weapon;
+import hero_fighter.HealthBar;
+import monsters.Boss;
+import monsters.Monster;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
@@ -286,7 +292,7 @@ public Polygon getSwordHitbox() {
         healthBar.decreaseHealth(damage); // Update health bar on taking damage
     }
 
-    double getHealth() {
+    public double getHealth() {
         return healthBar.getCurrentHealth();
     }
 

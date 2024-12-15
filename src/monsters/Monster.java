@@ -4,93 +4,132 @@
  */
 package monsters;
 
+import hero_fighter.HealthBar;
+import fighter.Hero;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import utility.Position;
-import utility.Power;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  *
  * @author yessine
  */
-public abstract class Monster {
-    private String monster_name ;
-    private Position monster_position ;
-    private Power monster_power ;
-    private int monster_level ;
-    private Image skin_monster ; 
-    private char Difficulty ;
+public class Monster {
+    private double x, y; // Monster's position
+    private double speed = 0.8; // Speed at which the monster moves
+    private double width = 100; // Monster's width
+    private double height = 100; // Monster's height
+    private Image walkPose1; // Monster's first walking pose
+    private Image walkPose2; // Monster's second walking pose
+    private Image currentPose; // Current pose to render
+    private int walkFrame = 0; // Counter for animation frames
+    private boolean faceRight=true;
+    private HealthBar healthBar; 
+    private boolean hitThisAttack = false;
+
+public boolean isHitThisAttack() {
+    return hitThisAttack;
+}
+
+public void setHitThisAttack(boolean hitThisAttack) {
+    this.hitThisAttack = hitThisAttack;
+}
+
+    public Monster(double x, double y) {
+        this.x = x;
+        this.y = y;
+
+        // Load images
+        this.walkPose1 = new Image(getClass().getResource("/hero_fighter/ressources/monsters/zombie_walk1.png").toExternalForm());
+        this.walkPose2 = new Image(getClass().getResource("/hero_fighter/ressources/monsters/zombie_walk2.png").toExternalForm());
+        this.currentPose = walkPose1; // Default to the first pose
+        this.healthBar = new HealthBar(100);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
     
-	public Monster(String monster_name, Position monster_position, Power monster_power, int monster_level,
-			char difficulty,String skin_image) {
-		super();
-		this.monster_name = monster_name;
-		this.monster_position = monster_position;
-		this.monster_power = monster_power;
-		this.monster_level = monster_level;
-		Difficulty = difficulty;
-		this.skin_monster= new Image(getClass().getResourceAsStream(skin_image));
-	}
+    // Update the monster's position to follow the hero
+    public void update(double heroX, double heroY) {
+        // Move horizontally towards the hero
+        if (x < heroX) {
+            x += speed;
+            faceRight=true;
+            // Move right
+        } else if (x > heroX) {
+            x -= speed; // Move left
+            faceRight=false;
+        }
 
-	public String getMonster_name() {
-		return monster_name;
-	}
+        // Move vertically towards the hero
+       /* if (y < heroY) {
+            y += speed; // Move down
+        } else if (y > heroY) {
+            y -= speed; // Move up
+        }*/
 
-	public void setMonster_name(String monster_name) {
-		this.monster_name = monster_name;
-	}
+        // Update walking animation
+        walkFrame++;
+        if (walkFrame % 20 < 10) { // Alternate every 10 frames
+            currentPose = walkPose1;
+        } else {
+            currentPose = walkPose2;
+        }
+    }
 
-	public Position getMonster_position() {
-		return monster_position;
-	}
+    // Render the monster
+   public void render(GraphicsContext gc) {
+        // Save the current transformation matrix
+        gc.save();
 
-	public void setMonster_position(Position monster_position) {
-		this.monster_position = monster_position;
-	}
+        // If the monster is facing left, flip the image horizontally
+        if (!faceRight) {
+            gc.translate(x + width, y); // Translate to the right edge
+            gc.scale(-1, 1);  // Flip the image horizontally
+        } else {
+            gc.translate(x, y); // Normal translation
+        }
 
-	public Power getMonster_power() {
-		return monster_power;
-	}
+        // Draw the monster's image
+        gc.drawImage(currentPose, 0, 0, width, height);
 
-	public void setMonster_power(Power monster_power) {
-		this.monster_power = monster_power;
-	}
+        // Restore the transformation matrix
+        gc.restore();
+        healthBar.render(gc, x, y);
+    }
 
-	public int getMonster_level() {
-		return monster_level;
-	}
-
-	public void setMonster_level(int monster_level) {
-		this.monster_level = monster_level;
-	}
-
-	public Image getSkin_monster() {
-		return skin_monster;
-	}
-
-	public void setSkin_monster(Image skin_monster) {
-		this.skin_monster = skin_monster;
-	}
-
-	public void setDifficulty(char difficulty) {
-		Difficulty = difficulty;
-	}
-	
-	public void movement() {
-		// a définir ulterieuement 
-	}
-	
-	public void dammge() {
-		// a définir ulterieuement 
-	}
-	
-	public boolean is_available_level(int level ) {
-		return  level <= this.getMonster_level();
-	}
-	
-	public  abstract char getDifficulty() ;
-		
-	
-	
-    
-    
+    // Check collision with the hero
+    public boolean collidesWithHero(Hero hero) {
+        return x < hero.getX() + hero.getWidth() &&
+               x + width > hero.getX() &&
+               y < hero.getY() + hero.getHeight() &&
+               y + height > hero.getY();
+    }
+    public void takeDamage(double damage) {
+        healthBar.decreaseHealth(damage); // Update health bar on taking damage
+    }
+    public boolean isDead() {
+        return healthBar.getCurrentHealth() <= 0; // Check if health is depleted
+    }
+     public boolean collidesWithSword(Polygon swordHitbox) {
+       Rectangle monsterHitbox = new Rectangle(x, y, width, height); // Monster's hitbox
+    Shape intersection = Shape.intersect(monsterHitbox, swordHitbox);
+    return intersection.getBoundsInLocal().getWidth() > 0;
+    }
 }

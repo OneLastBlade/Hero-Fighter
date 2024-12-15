@@ -4,60 +4,87 @@
  */
 package equipement;
 
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import utility.Position;
 
 /**
  *
  * @author yessine
  */
-public class Weapon extends Equipement {
-	
-	private int attack_dammage ;
-	private int rage_to_dammage ;
-	
-	public Weapon(String equip_name, String logo_url, int level) {
-		super(equip_name, logo_url, level);
-		// TODO Auto-generated constructor stub
-	}
-	
-	public Weapon(String equip_name, String logo_url, int level, int attack_dammage, int rage_to_dammage) {
-		super(equip_name, logo_url, level);
-		this.attack_dammage = attack_dammage;
-		this.rage_to_dammage = rage_to_dammage;
-	}
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
+public class Weapon {
 
-	public int getAttack_dammage() {
-		return attack_dammage;
-	}
-
-
-	public void setAttack_dammage(int attack_dammage) {
-		this.attack_dammage = attack_dammage;
-	}
-
-
-	public int getRage_to_dammage() {
-		return rage_to_dammage;
-	}
-
-
-	public void setRage_to_dammage(int rage_to_dammage) {
-		this.rage_to_dammage = rage_to_dammage;
-	}
-
-
-	@Override
-	public void Show_caract(Label label,ImageView image) {
-		image.setImage(this.getLogo());
-		label.setText(String.format("Attack dammage : %d \nRage of dammage : %d",this.getAttack_dammage() ,this.getRage_to_dammage()));
-				
-	}
-
-    public void setPosition(Position position) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    private String type; // e.g., "Sword" or "Gun"
+    private double x, y;  // Position of the weapon on the screen
+    private double angle; // Rotation angle for the weapon
     
+
+    // Constructor
+    public Weapon(String type, double x, double y) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.angle = 0; // Default no rotation
+    }
+
+    // Getters and Setters for the type, position, and angle
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle; // Set the rotation angle
+    }
+
+    // Render method to display the weapon on the screen
+    public void render(GraphicsContext gc, Image image) {
+        // Define a scale factor based on the hero's size (e.g., scaling sword down by 20%)
+        double scaleFactor =type=="sword"?0.2:0.1; // Adjust this factor as needed
+
+        // Calculate the new width and height while maintaining the aspect ratio
+        double swordWidth = image.getWidth() * scaleFactor;
+        double swordHeight = image.getHeight() * scaleFactor;
+
+        // Save the current transformation state before applying rotation
+        gc.save();
+
+        // Move the origin to the weapon's position
+        gc.translate(x, y);
+
+        // Apply the rotation (rotate around the center of the weapon)
+        gc.rotate(angle);
+
+        // Draw the resized sword, positioning it with respect to the center
+        gc.drawImage(image, -swordWidth / 2, -swordHeight / 2, swordWidth, swordHeight);
+
+        // Restore the previous transformation state
+        gc.restore();
+    }
 }

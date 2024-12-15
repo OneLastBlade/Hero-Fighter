@@ -1,5 +1,10 @@
 package hero_fighter;
 
+import fighter.Hero;
+import utility.InputHandler;
+import equipement.Bullet;
+import monsters.Boss;
+import monsters.Monster;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
