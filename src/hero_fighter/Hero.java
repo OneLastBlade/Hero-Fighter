@@ -53,7 +53,7 @@ public class Hero {
         this.equippedWeapon = new Weapon(weaponName, 0,0);// Initialize weapon at hero's position
 
         equipWeapon(this.equippedWeapon);  // Equip the weapon
-        this.healthBar = new HealthBar(100,false);
+        this.healthBar = new HealthBar(100,false,false);
     }
 
     public double getX() {
@@ -99,7 +99,7 @@ public class Hero {
             equippedWeapon.setY( weaponOffsetY+equippedWeapon.getAngle());}
     }
 
-  public void update(InputHandler inputHandler, List<Monster> monsters) {
+  public void update(InputHandler inputHandler, List<Monster> monsters,Boss boss) {
     // Jump logic
     if (inputHandler.isUp() && !isJumping) {
         isJumping = true;
@@ -195,6 +195,10 @@ public class Hero {
                 monster.setHitThisAttack(true); // Mark monster as hit for this attack
     }
 }         
+            if(boss.collidesWithSword(swordHitbox))
+            {
+                 boss.takeDamage(20);
+            }
        }
     }
     // Reset the hit flag at the end of the attack cycle

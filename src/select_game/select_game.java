@@ -264,10 +264,6 @@ public class select_game extends Application {
             e.printStackTrace();
         }
     }
-    /* public void onGameStart(){
-         System.out.println("3asba lik m3amar");
-        Hero_Fighter.launch(Hero_Fighter.class);
-    }*/
 
 
 public void onGameStart(ActionEvent event) {
