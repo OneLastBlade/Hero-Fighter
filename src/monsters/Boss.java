@@ -56,6 +56,15 @@ public class Boss {
     // Smash animation variables
     private boolean smashing = false; // Flag for smash animation
     private int smashFrame = 0; // Counter for smash animation frames
+    private boolean hitThisAttack = false;
+    
+    public boolean isHitThisAttack() {
+    return hitThisAttack;
+}
+
+public void setHitThisAttack(boolean hitThisAttack) {
+    this.hitThisAttack = hitThisAttack;
+}
     public double getX() {
     return x;
 }

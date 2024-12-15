@@ -201,9 +201,10 @@ public class Hero {
                 monster.setHitThisAttack(true); // Mark monster as hit for this attack
     }
 }         
-            if(boss.collidesWithSword(swordHitbox))
+            if(boss.collidesWithSword(swordHitbox) && !boss.isHitThisAttack())
             {
                  boss.takeDamage(20);
+                 boss.setHitThisAttack(true);
             }
        }
     }
@@ -212,6 +213,7 @@ if (!isAttacking) {
     for (Monster monster : monsters) {
         monster.setHitThisAttack(false);
     }
+    boss.setHitThisAttack(false);
 }
 
     // Update bullets
